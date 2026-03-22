@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  /* The Financial Atelier - Design System Tokens */
   --color-primary: #b90036;
   --color-primary-container: #ff7481;
   --color-secondary-container: #ffd6d9;
@@ -24,12 +23,8 @@
   --color-error: #b90036;
   --color-info: #2563eb;
 
-  --color-status-unpaid: #b90036;
-  --color-status-confirming: #d4a017;
-  --color-status-paid: #2d8a4e;
-  --color-status-pending: #d4a017;
-  --color-status-approved: #2563eb;
-  --color-status-rejected: #b90036;
+  --color-teal: #0d7377;
+  --color-purple: #7c3aed;
 
   --font-display: 'Plus Jakarta Sans', sans-serif;
   --font-body: 'Manrope', sans-serif;
@@ -74,71 +69,96 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Numbers with Cormorant Garamond for financial data */
 .font-number {
   font-family: var(--font-number);
   font-weight: 500;
   letter-spacing: -0.02em;
 }
 
-/* The "No-Line" Rule - never use 1px solid borders */
-/* Use background shifts and tonal transitions instead */
-
-/* Glassmorphism for floating elements */
 .glass {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 
-/* Ambient shadow - soft glow, not dark smudge */
 .shadow-ambient {
   box-shadow: 0 4px 40px rgba(46, 47, 47, 0.04);
 }
 
-/* Ghost border - for containers on same background */
-.ghost-border {
-  box-shadow: inset 0 0 0 1px rgba(196, 196, 196, 0.15);
+.shadow-card {
+  box-shadow: 0 2px 16px rgba(46, 47, 47, 0.06);
 }
 
-/* Primary gradient for CTAs */
 .gradient-primary {
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-container));
 }
 
-/* Status badges */
-.status-unpaid { background-color: #fde8ec; color: var(--color-status-unpaid); }
-.status-confirming { background-color: #fef3cd; color: var(--color-status-confirming); }
-.status-paid { background-color: #d4edda; color: var(--color-status-paid); }
-.status-pending { background-color: #fef3cd; color: var(--color-status-pending); }
-.status-approved { background-color: #d6e4ff; color: var(--color-status-approved); }
-.status-rejected { background-color: #fde8ec; color: var(--color-status-rejected); }
+/* Slider styling */
+.slider-input {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  outline: none;
+}
 
-/* Scrollbar styling */
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #b90036;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(185, 0, 54, 0.3);
+}
+
+.slider-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #b90036;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 6px rgba(185, 0, 54, 0.3);
+}
+
+/* Toggle switch */
+.toggle-switch {
+  width: 48px;
+  height: 26px;
+  background: #d1d0cf;
+  border-radius: 13px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.toggle-switch.active {
+  background: #b90036;
+}
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: white;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.toggle-switch.active::after {
+  transform: translateX(22px);
+}
+
+/* Scrollbar hiding for mobile feel */
 ::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background-color: var(--color-outline-variant);
-  border-radius: var(--radius-full);
+  width: 0;
+  display: none;
 }
 
-/* Focus state - Ghost Border with primary */
 input:focus, select:focus, textarea:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(185, 0, 54, 0.2);
-  transform: scale(1.005);
-  transition: all 0.2s ease;
-}
-
-/* Transition defaults */
-.transition-lift {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.transition-lift:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 40px rgba(46, 47, 47, 0.06);
 }

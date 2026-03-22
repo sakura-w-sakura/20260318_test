@@ -10,11 +10,7 @@ export default function Home() {
 
   useEffect(() => {
     if (user) {
-      if (user.role === 'part_time') {
-        router.push('/expenses/submit')
-      } else {
-        router.push('/dashboard')
-      }
+      router.push('/dashboard')
     } else {
       router.push('/login')
     }

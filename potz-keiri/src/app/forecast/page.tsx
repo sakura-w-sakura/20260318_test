@@ -1,196 +1,130 @@
 'use client'
 
-import { useMemo } from 'react'
-import { Card, CardTitle, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Line, ComposedChart, Area } from 'recharts'
-import { TrendingUp, AlertTriangle, Wallet, Calculator } from 'lucide-react'
-import { mockSales, mockExpenses, mockSettings } from '@/lib/mock-data'
-import { formatCurrency, cn } from '@/lib/utils'
+import { useState } from 'react'
+import { PageHeader } from '@/components/layout/page-header'
+import { HeroCard } from '@/components/ui/hero-card'
+import { Card } from '@/components/ui/card'
+import { SliderInput } from '@/components/ui/slider-input'
 
 export default function ForecastPage() {
-  const taxRate = mockSettings.tax_rate
+  const [income, setIncome] = useState(6500000)
+  const [ideco, setIdeco] = useState(276000)
+  const [furusato, setFurusato] = useState(80000)
+  const [shoukibo, setShoukibo] = useState(true)
+  const [shoukiboAmount] = useState(70000)
 
-  // 月次データ集計
-  const monthlyData = useMemo(() => {
-    const months = ['2025-08', '2025-09', '2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03']
-    return months.map(month => {
-      const sales = mockSales
-        .filter(s => s.invoice_date.startsWith(month))
-        .reduce((sum, s) => sum + s.amount, 0)
-      const expenses = mockExpenses
-        .filter(e => e.date.startsWith(month) && (e.status === 'approved' || e.status === 'paid'))
-        .reduce((sum, e) => sum + e.amount, 0)
-      const profit = sales - expenses
-      return {
-        month: `${parseInt(month.split('-')[1])}月`,
-        売上: sales,
-        経費: expenses,
-        利益: profit,
-      }
-    })
-  }, [])
-
-  // 今期累計（8月〜7月）
-  const totalSales = mockSales.reduce((sum, s) => sum + s.amount, 0)
-  const totalExpenses = mockExpenses
-    .filter(e => e.status === 'approved' || e.status === 'paid')
-    .reduce((sum, e) => sum + e.amount, 0)
-  const estimatedProfit = totalSales - totalExpenses
-  const estimatedTax = Math.round(estimatedProfit * (taxRate / 100))
-  const estimatedCash = estimatedProfit - estimatedTax
-
-  // 今月
-  const currentMonth = '2026-03'
-  const thisMonthSales = mockSales.filter(s => s.invoice_date.startsWith(currentMonth)).reduce((sum, s) => sum + s.amount, 0)
-  const thisMonthExpenses = mockExpenses.filter(e => e.date.startsWith(currentMonth) && (e.status === 'approved' || e.status === 'paid')).reduce((sum, e) => sum + e.amount, 0)
-  const thisMonthProfit = thisMonthSales - thisMonthExpenses
-
-  // 利益アラート（100万円超でアラート）
-  const profitAlert = estimatedProfit > 1000000
+  const taxSaving = 142500
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)' }}>概算利益・納税予測</h1>
-        <p className="text-on-surface-variant mt-1">今期の利益概算と納税予測（決算月：7月）</p>
-      </div>
+    <div>
+      <PageHeader title="税金シミュレーター" />
 
-      {profitAlert && (
-        <div className="flex items-center gap-3 px-5 py-4 bg-[#fef3cd] rounded-2xl">
-          <AlertTriangle size={20} className="text-warning shrink-0" />
-          <div>
-            <p className="text-sm font-semibold text-warning">利益アラート</p>
-            <p className="text-xs text-on-surface-variant mt-0.5">
-              概算利益が100万円を超えています。税理士との相談を検討してください。
-            </p>
+      <div className="px-5 space-y-5 pt-4">
+        {/* Hero: Tax Saving Estimate */}
+        <HeroCard>
+          <p className="text-sm text-white/80">節税見込み額</p>
+          <div className="flex items-baseline gap-1 mt-2">
+            <p className="font-number text-5xl font-semibold tracking-tight">¥{taxSaving.toLocaleString()}</p>
+            <span className="text-lg text-white/80">/年</span>
+          </div>
+          <p className="text-sm text-white/70 mt-2">現在の入力内容に基づくと、これらの最適化により納税負担を大幅に軽減できる可能性があります。</p>
+        </HeroCard>
+
+        {/* Annual Income */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-base font-bold">年収</p>
+            <p className="font-number text-xl font-semibold text-primary">¥{income.toLocaleString()}</p>
+          </div>
+          <SliderInput value={income} min={2000000} max={20000000} step={100000} onChange={setIncome} />
+          <div className="flex justify-between mt-1">
+            <span className="text-xs text-on-surface-variant">最小 ¥200万</span>
+            <span className="text-xs text-on-surface-variant">最大 ¥2000万</span>
           </div>
         </div>
-      )}
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-        <Card>
-          <CardContent>
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm text-on-surface-variant">今期累計売上</span>
-              <div className="w-10 h-10 bg-[#d4edda] rounded-2xl flex items-center justify-center">
-                <TrendingUp size={18} className="text-success" />
-              </div>
+        {/* iDeCo */}
+        <Card className="!p-5">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-full bg-[#fff0f2] flex items-center justify-center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b90036" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16" />
+                <path d="M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+              </svg>
             </div>
-            <p className="text-2xl font-bold font-number">{formatCurrency(totalSales)}</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent>
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm text-on-surface-variant">今期累計経費</span>
-              <div className="w-10 h-10 bg-[#fef3cd] rounded-2xl flex items-center justify-center">
-                <Calculator size={18} className="text-warning" />
-              </div>
+            <div className="flex-1">
+              <p className="font-semibold text-sm">iDeCo</p>
+              <p className="text-xs text-on-surface-variant">個人型確定拠出年金</p>
             </div>
-            <p className="text-2xl font-bold font-number">{formatCurrency(totalExpenses)}</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent>
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm text-on-surface-variant">概算利益</span>
-              <div className={cn('w-10 h-10 rounded-2xl flex items-center justify-center', estimatedProfit >= 0 ? 'bg-[#d4edda]' : 'bg-[#fde8ec]')}>
-                <TrendingUp size={18} className={estimatedProfit >= 0 ? 'text-success' : 'text-error'} />
-              </div>
-            </div>
-            <p className={cn('text-2xl font-bold font-number', estimatedProfit < 0 && 'text-error')}>
-              {formatCurrency(estimatedProfit)}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent>
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm text-on-surface-variant">納税予測額</span>
-              <div className="w-10 h-10 bg-[#fde8ec] rounded-2xl flex items-center justify-center">
-                <Wallet size={18} className="text-error" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold font-number">{formatCurrency(estimatedTax)}</p>
-            <p className="text-xs text-on-surface-variant mt-1">税率 {taxRate}%（簡易計算）</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* 手元キャッシュ予測 */}
-      <Card className="bg-surface-container-lowest">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-on-surface-variant mb-1">手元キャッシュ予測</p>
-            <p className="text-3xl font-bold font-number">{formatCurrency(estimatedCash)}</p>
-            <p className="text-xs text-on-surface-variant mt-2">概算利益 − 納税予測額 = 実質的な手元資金の目安</p>
+            <p className="font-number text-lg font-semibold text-primary">¥{ideco.toLocaleString()}</p>
           </div>
-          <div className="text-right">
-            <Badge variant={estimatedCash > 0 ? 'success' : 'error'}>
-              {estimatedCash > 0 ? 'プラス' : 'マイナス'}
-            </Badge>
+          <SliderInput value={ideco} min={0} max={816000} step={1000} onChange={setIdeco} />
+          <p className="text-xs text-on-surface-variant mt-4 leading-relaxed">
+            掛金は全額所得控除の対象です。将来に備えるほど、現在の税金を抑えることができます。
+          </p>
+        </Card>
+
+        {/* Furusato Nozei */}
+        <Card className="!p-5">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-full bg-[#fef3cd] flex items-center justify-center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d4a017" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 7h-3a2 2 0 0 1-2-2V2" />
+                <path d="M16 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-6-6z" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <p className="font-semibold text-sm">ふるさと納税</p>
+              <p className="text-xs text-on-surface-variant">自治体への寄附金</p>
+            </div>
+            <p className="font-number text-lg font-semibold text-primary">¥{furusato.toLocaleString()}</p>
           </div>
-        </div>
-      </Card>
-
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {/* Monthly P&L chart */}
-        <Card>
-          <CardTitle className="mb-4">月次 売上・経費・利益推移</CardTitle>
-          <CardContent>
-            <div className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart data={monthlyData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e9e8e7" />
-                  <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#6b6c6c' }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 12, fill: '#6b6c6c' }} axisLine={false} tickLine={false}
-                    tickFormatter={(v: number) => v >= 1000000 ? `${(v / 1000000).toFixed(1)}M` : v >= 1000 ? `${(v / 1000).toFixed(0)}K` : String(v)} />
-                  <Tooltip
-                    formatter={(value) => formatCurrency(Number(value))}
-                    contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 4px 40px rgba(46,47,47,0.08)' }}
-                  />
-                  <Bar dataKey="売上" fill="#b90036" radius={[6, 6, 0, 0]} />
-                  <Bar dataKey="経費" fill="#ff7481" radius={[6, 6, 0, 0]} />
-                  <Line type="monotone" dataKey="利益" stroke="#2d8a4e" strokeWidth={2} dot={{ fill: '#2d8a4e', r: 4 }} />
-                </ComposedChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
+          <SliderInput value={furusato} min={0} max={300000} step={1000} onChange={setFurusato} />
+          <p className="text-xs text-on-surface-variant mt-4 leading-relaxed">
+            実質負担2,000円で地方自治体を応援し、返礼品を受け取ることができます。
+          </p>
         </Card>
 
-        {/* Monthly profit table */}
-        <Card>
-          <CardTitle className="mb-4">月次利益一覧</CardTitle>
-          <CardContent>
-            <div className="space-y-2">
-              {monthlyData.filter(d => d.売上 > 0 || d.経費 > 0).map(d => (
-                <div key={d.month} className="flex items-center justify-between px-4 py-3 bg-surface-container-low rounded-2xl">
-                  <span className="text-sm font-medium">{d.month}</span>
-                  <div className="flex items-center gap-6 text-sm">
-                    <span className="text-on-surface-variant">売上 <span className="font-number font-bold text-on-surface">{formatCurrency(d.売上)}</span></span>
-                    <span className="text-on-surface-variant">経費 <span className="font-number font-bold text-on-surface">{formatCurrency(d.経費)}</span></span>
-                    <span className={cn('font-number font-bold', d.利益 >= 0 ? 'text-success' : 'text-error')}>
-                      {formatCurrency(d.利益)}
-                    </span>
-                  </div>
-                </div>
-              ))}
+        {/* Shoukibo Kigyou Kyousai */}
+        <Card className="!p-5">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-[#fff0f2] flex items-center justify-center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b90036" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" />
+                <path d="M16 7V5a4 4 0 0 0-8 0v2" />
+              </svg>
             </div>
-          </CardContent>
+            <div className="flex-1">
+              <p className="font-semibold text-sm">小規模企業共済</p>
+              <p className="text-xs text-on-surface-variant">経営者のための退職金制度</p>
+            </div>
+            <button
+              onClick={() => setShoukibo(!shoukibo)}
+              className={`toggle-switch ${shoukibo ? 'active' : ''}`}
+            />
+          </div>
+          {shoukibo && (
+            <div className="flex items-center justify-between mt-4 pt-4" style={{ borderTop: '1px solid #f2f0f0' }}>
+              <p className="text-sm text-on-surface-variant">月額掛金</p>
+              <p className="font-number text-lg font-semibold">¥{shoukiboAmount.toLocaleString()}</p>
+            </div>
+          )}
         </Card>
-      </div>
 
-      {/* Disclaimer */}
-      <div className="text-center py-4">
-        <p className="text-xs text-outline">
-          ※ 本画面の数値は概算であり、厳密な会計処理は含みません。最終的な納税額は税理士にご確認ください。
-        </p>
+        {/* Tax Advice */}
+        <Card className="!p-5">
+          <div className="flex items-start gap-2">
+            <span className="text-lg">💡</span>
+            <div>
+              <p className="font-bold text-sm mb-2">節税のアドバイス</p>
+              <p className="text-sm text-on-surface-variant leading-relaxed">
+                あなたの現在の所得税率は <span className="font-semibold text-primary">20%</span> です。iDeCoの掛金を月5,000円増やすだけで、将来に備えながらより効率的な節税効果が得られます。
+              </p>
+            </div>
+          </div>
+        </Card>
+
+        <div className="h-4" />
       </div>
     </div>
   )
