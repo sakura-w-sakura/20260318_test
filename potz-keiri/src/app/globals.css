@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+@theme {
+  /* The Financial Atelier - Design System Tokens */
+  --color-primary: #b90036;
+  --color-primary-container: #ff7481;
+  --color-secondary-container: #ffd6d9;
+  --color-on-secondary-container: #5c1020;
+
+  --color-surface: #f8f6f5;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2f0f0;
+  --color-surface-container: #e9e8e7;
+  --color-surface-container-high: #dddcdb;
+  --color-surface-container-highest: #d1d0cf;
+
+  --color-on-surface: #2e2f2f;
+  --color-on-surface-variant: #6b6c6c;
+  --color-outline: #8e8f8f;
+  --color-outline-variant: #c4c4c4;
+
+  --color-success: #2d8a4e;
+  --color-warning: #d4a017;
+  --color-error: #b90036;
+  --color-info: #2563eb;
+
+  --color-status-unpaid: #b90036;
+  --color-status-confirming: #d4a017;
+  --color-status-paid: #2d8a4e;
+  --color-status-pending: #d4a017;
+  --color-status-approved: #2563eb;
+  --color-status-rejected: #b90036;
+
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+  --font-number: 'Cormorant Garamond', serif;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 2rem;
+  --radius-xl: 3rem;
+  --radius-full: 9999px;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: local('Plus Jakarta Sans');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: local('Manrope');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: local('Cormorant Garamond');
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-body);
+  color: var(--color-on-surface);
+  background-color: var(--color-surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Numbers with Cormorant Garamond for financial data */
+.font-number {
+  font-family: var(--font-number);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+/* The "No-Line" Rule - never use 1px solid borders */
+/* Use background shifts and tonal transitions instead */
+
+/* Glassmorphism for floating elements */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Ambient shadow - soft glow, not dark smudge */
+.shadow-ambient {
+  box-shadow: 0 4px 40px rgba(46, 47, 47, 0.04);
+}
+
+/* Ghost border - for containers on same background */
+.ghost-border {
+  box-shadow: inset 0 0 0 1px rgba(196, 196, 196, 0.15);
+}
+
+/* Primary gradient for CTAs */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-container));
+}
+
+/* Status badges */
+.status-unpaid { background-color: #fde8ec; color: var(--color-status-unpaid); }
+.status-confirming { background-color: #fef3cd; color: var(--color-status-confirming); }
+.status-paid { background-color: #d4edda; color: var(--color-status-paid); }
+.status-pending { background-color: #fef3cd; color: var(--color-status-pending); }
+.status-approved { background-color: #d6e4ff; color: var(--color-status-approved); }
+.status-rejected { background-color: #fde8ec; color: var(--color-status-rejected); }
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-outline-variant);
+  border-radius: var(--radius-full);
+}
+
+/* Focus state - Ghost Border with primary */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(185, 0, 54, 0.2);
+  transform: scale(1.005);
+  transition: all 0.2s ease;
+}
+
+/* Transition defaults */
+.transition-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.transition-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(46, 47, 47, 0.06);
+}
