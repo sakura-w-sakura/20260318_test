@@ -20,7 +20,7 @@ export default function HomePage() {
               <polyline points="7 7 17 7 17 17" />
             </svg>
           </div>
-          <p className="font-number text-5xl font-semibold mt-3 tracking-tight">¥1,245,800</p>
+          <p className="font-number text-5xl font-bold mt-3 tracking-tight">¥1,245,800</p>
           <p className="text-sm text-white/70 mt-2">現在のペースに基づく概算納税額</p>
         </HeroCard>
 
@@ -29,7 +29,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs text-on-surface-variant">6月の利益</p>
-              <p className="font-number text-3xl font-semibold mt-1">¥428,000</p>
+              <p className="font-number text-3xl font-bold mt-1">¥428,000</p>
             </div>
             <div className="flex items-end gap-1 h-10">
               <div className="w-3 h-5 rounded-sm bg-teal opacity-60" />

@@ -28,7 +28,7 @@
 
   --font-display: 'Plus Jakarta Sans', sans-serif;
   --font-body: 'Manrope', sans-serif;
-  --font-number: 'Cormorant Garamond', serif;
+  --font-number: 'Plus Jakarta Sans', sans-serif;
 
   --radius-sm: 0.5rem;
   --radius-md: 1rem;
@@ -71,7 +71,7 @@ html {
 
 .font-number {
   font-family: var(--font-number);
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: -0.02em;
 }
 

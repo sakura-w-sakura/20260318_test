@@ -55,7 +55,7 @@ function DonutChart() {
         })}
       </svg>
       <div className="absolute text-center">
-        <p className="font-number text-3xl font-semibold">¥642,000</p>
+        <p className="font-number text-3xl font-bold">¥642,000</p>
         <p className="text-xs text-on-surface-variant">支出合計</p>
       </div>
     </div>
@@ -104,7 +104,7 @@ export default function InputPage() {
                     <p className="font-medium text-sm truncate">{item.name}</p>
                     <p className="text-xs text-on-surface-variant">{item.date}</p>
                   </div>
-                  <p className={`font-number text-base font-semibold whitespace-nowrap ${item.amount < 0 ? 'text-primary' : 'text-teal'}`}>
+                  <p className={`font-number text-base font-bold whitespace-nowrap ${item.amount < 0 ? 'text-primary' : 'text-teal'}`}>
                     {item.amount < 0 ? '-' : '+'}¥{Math.abs(item.amount).toLocaleString()}
                   </p>
                 </div>

@@ -24,7 +24,7 @@ export default function ForecastPage() {
         <HeroCard>
           <p className="text-sm text-white/80">節税見込み額</p>
           <div className="flex items-baseline gap-1 mt-2">
-            <p className="font-number text-5xl font-semibold tracking-tight">¥{taxSaving.toLocaleString()}</p>
+            <p className="font-number text-5xl font-bold tracking-tight">¥{taxSaving.toLocaleString()}</p>
             <span className="text-lg text-white/80">/年</span>
           </div>
           <p className="text-sm text-white/70 mt-2">現在の入力内容に基づくと、これらの最適化により納税負担を大幅に軽減できる可能性があります。</p>
@@ -34,7 +34,7 @@ export default function ForecastPage() {
         <div>
           <div className="flex items-center justify-between mb-2">
             <p className="text-base font-bold">年収</p>
-            <p className="font-number text-xl font-semibold text-primary">¥{income.toLocaleString()}</p>
+            <p className="font-number text-xl font-bold text-primary">¥{income.toLocaleString()}</p>
           </div>
           <SliderInput value={income} min={2000000} max={20000000} step={100000} onChange={setIncome} />
           <div className="flex justify-between mt-1">
@@ -56,7 +56,7 @@ export default function ForecastPage() {
               <p className="font-semibold text-sm">iDeCo</p>
               <p className="text-xs text-on-surface-variant">個人型確定拠出年金</p>
             </div>
-            <p className="font-number text-lg font-semibold text-primary">¥{ideco.toLocaleString()}</p>
+            <p className="font-number text-lg font-bold text-primary">¥{ideco.toLocaleString()}</p>
           </div>
           <SliderInput value={ideco} min={0} max={816000} step={1000} onChange={setIdeco} />
           <p className="text-xs text-on-surface-variant mt-4 leading-relaxed">
@@ -77,7 +77,7 @@ export default function ForecastPage() {
               <p className="font-semibold text-sm">ふるさと納税</p>
               <p className="text-xs text-on-surface-variant">自治体への寄附金</p>
             </div>
-            <p className="font-number text-lg font-semibold text-primary">¥{furusato.toLocaleString()}</p>
+            <p className="font-number text-lg font-bold text-primary">¥{furusato.toLocaleString()}</p>
           </div>
           <SliderInput value={furusato} min={0} max={300000} step={1000} onChange={setFurusato} />
           <p className="text-xs text-on-surface-variant mt-4 leading-relaxed">
@@ -106,7 +106,7 @@ export default function ForecastPage() {
           {shoukibo && (
             <div className="flex items-center justify-between mt-4 pt-4" style={{ borderTop: '1px solid #f2f0f0' }}>
               <p className="text-sm text-on-surface-variant">月額掛金</p>
-              <p className="font-number text-lg font-semibold">¥{shoukiboAmount.toLocaleString()}</p>
+              <p className="font-number text-lg font-bold">¥{shoukiboAmount.toLocaleString()}</p>
             </div>
           )}
         </Card>
