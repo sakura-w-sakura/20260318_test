@@ -11,17 +11,9 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const router = useRouter()
   const pathname = usePathname()
 
-  useEffect(() => {
-    if (!user && pathname !== '/login') {
-      router.push('/login')
-    }
-  }, [user, pathname, router])
-
   if (pathname === '/login') {
     return <>{children}</>
   }
-
-  if (!user) return null
 
   return (
     <div className="min-h-screen bg-surface flex justify-center">
