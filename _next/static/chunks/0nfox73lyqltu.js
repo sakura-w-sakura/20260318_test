@@ -1,1 +1,0 @@
-(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,52683,u=>{"use strict";var t=u.i(71645),e=u.i(18566),s=u.i(94690);u.s(["default",0,function(){let u=(0,e.useRouter)(),{user:o}=(0,s.useAuth)();return(0,t.useEffect)(()=>{o?u.push("/dashboard"):u.push("/login")},[o,u]),null}])}]);
